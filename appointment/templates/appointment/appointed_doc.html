@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<html>
+    <head>
+    </head>
+    {% block content %}
+        <div class="row">
+            <div class="col-md-5">
+                <h3>My Appointments</h3>
+                <div class="card card-body">
+                    {% comment %} {% if user.is_doctor %}
+                        <a href="{% url 'appointment:doc-appointments-create' %}">
+                            <button class="btn btn-info">Create Appointment</button>
+                    </a> {% endcomment %}
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Status</th>
+                            <th>Exam</th>
+                            <th>Allergic</th>
+                            <th>Bp</th>
+                            <th>Pulse</th>
+                            <th>Temp</th>
+                            <th>Weight</th>
+                            <th>SP02</th>
+                        </thead>
+                        {% for obj in app_list %}
+                            <tr id="row-1">
+                                <td>{{ obj.date }}</td>
+                                <td>{{ obj.time }}</td>
+                                <td>
+                                  {{ obj.patient }}
+                                </td>
+                                <td>{{ obj.status }}</td>
+                                <td>{{ obj.Exam }}</td>
+                                <td>{{ obj.Allergic }}</td>
+                                <td>{{ obj.Bp }}</td>
+                                <td>{{ obj.Pulse }}</td>
+                                <td>{{ obj.Temp }}</td>
+                                <td>{{ obj.Weight }}</td>
+                                <td>{{ obj.SP02 }}</td>
+                            </tr>
+                        {% empty %}
+                            <p>
+                                nothing to display
+                            </P>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</html>

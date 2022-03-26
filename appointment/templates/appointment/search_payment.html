@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+   <center>
+      {% if searched %}
+       <h1>You searched for {{ searched }} payments</h1> 
+       <br/> 
+       {% for payment in patPayment %}
+       <a href="{% url 'appointment:payment-pk' pk=payment.id%}">{{payment}}</a> <br/>
+       {% endfor %}
+       {% else %}
+       <h1>Hey!! Please recheck your Entry...</h1>
+      {% endif %}
+   
+   </center>
+{% endblock %}

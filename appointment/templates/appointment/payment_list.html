@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+
+<div class="row">
+      
+    <div class="col-md-7">
+        <h3>Payments</h3>
+        <div class="card card-body">
+   
+        <a href="{% url 'appointment:rec-payment' %}"><button class="btn btn-info">Make Payment</button><br><br></a>
+         
+          <div class ="row">
+                 <h5>Search</h5>
+            <div class = "col">
+            <div class = "card card-body">
+                <form class="d-flex" method=POST 
+                action="{% url 'appointment:search-payment' %}"
+                >
+                 {% csrf_token %}
+                 <input class="form-control me-2"
+                 type="search"placeholder="
+                 Search payment using payment method"arial-label="
+                 Search" name="searched">
+                 </form><br><br>
+            </div>
+            </div>
+            </div>
+         <table class="table table-striped">
+                <thead> 
+                    <th>Patient</th>
+                  
+                    <th>paymentMethod</th>
+                    <th>MedAid Name</th>
+                    <th>EcoNumber</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </thead>                
+                 {% for obj in pay_list %}
+                <tr>
+                    <td>{{ obj.patient }}</td>
+                   
+                    <td>{{ obj.paymentMethod }}</td>
+                    <td>{{ obj.medaid }}</td>
+                    <td>{{ obj.ecoNumber }}</td>
+                    <td>{{ obj.total }}</td>
+                     <td>{{ obj.status }}</td>
+                </tr>
+                {% empty %}
+                    <h3> nothing to display </h3>
+                {% endfor %}
+            </table>
+      
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

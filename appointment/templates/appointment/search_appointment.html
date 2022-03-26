@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <center>
+        {% if searched %}
+            <h1>You searched for {{ searched }}</h1>
+            <br />
+            {% for appointment in patAppointment %}
+                <a href="{% url 'appointment:appointment-pk' pk=appointment.id %}">{{ appointment }}</a>
+                <br />
+            {% endfor %}
+        {% else %}
+            <h1>Hey!! Please recheck your Patient name...</h1>
+        {% endif %}
+    </center>
+{% endblock %}

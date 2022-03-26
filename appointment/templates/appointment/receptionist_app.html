@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-5">
+        <h3>Appointments </h3>
+        <div class="card card-body">
+         {% if user.is_receptionist%} 
+        <a href="{% url 'appointment:doc-appointments-create' %}"><button class="btn btn-info">Create Appointment</button><br><br></a>
+
+           <div class ="row">
+            <h5>Search</h5>
+            <div class = "col">
+            <div class = "card card-body">
+                <form class="d-flex" method=POST 
+                action="{% url 'appointment:search-appointment' %}"
+                >
+                 {% csrf_token %}
+                 <input class="form-control me-2"
+                 type="search"placeholder="
+                 Search appointment using status"arial-label="
+                 Search" name="searched">
+                 </form>
+            <br><br>
+            </div>
+            </div>
+            </div>
+            
+            <body>
+              
+            <table class="table active-row">
+                
+                <thead >
+                   
+                    <th>Date</th>
+                    <th >Time</th>
+                    <th>Doctor</th>
+                    <th>Patient</th>
+                    <th>Status</th>
+                  
+                       <th>Allergic</th>
+                <th>Bp</th>
+                <th>Pulse</th>
+                <th>Temp</th>
+                <th>Weight</th>
+                <th>SP02</th>
+               
+              <!-- <th>Complaint</th>-->
+                </thead>
+                {% for obj in app_list %}
+                <tr class="active-row">
+                    <td>{{ obj.date }}</td>
+                    <td>{{ obj.time }}</td> 
+                    <td>{{ obj.doctor }}</td>
+                    <td>{{ obj.patient }}</td>
+                    <td>{{ obj.status }}</td>
+                 
+                <td>{{obj.Allergic}}</td>
+                <td>
+                    {% if obj.Bp < 130 %}
+                <div class="Bp NegativeTransaction"> 
+                {% else %} 
+                <div class="Bp PositiveTransaction">
+                {% endif %}
+                     {{ obj.Bp }}
+                </div>
+            </td>
+               <td>{{ obj.Pulse }}</td>
+        
+             <td> {{ obj.Temp }} </td>
+                  
+                <td>{{obj.Weight}}</td>
+                <td >{{obj.SP02}}</td>
+              
+                </tr>
+                {% endfor %}
+            </table>
+        </body>
+
+         {% endif %}
+        </div>
+    </div>
+</div>
+
+
+    {% endblock %}
+   

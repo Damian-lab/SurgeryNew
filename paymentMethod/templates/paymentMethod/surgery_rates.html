@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+<div class="container">
+    <h2>Today's Surgery Rates </h2>
+    <div>
+  
+        <table class="table table-striped">
+            <thead>
+              
+                <th>Rate</th>
+                <th>Currency Name</th>
+            </thead>
+            {% for obj in rates_list %}
+            <tr id="row-1">
+
+                <td>{{ obj.rate }}</td>
+                <td>{{ obj.currency_name }}</td>
+                
+         
+            </tr>
+            {% endfor %}
+        </table>
+   
+        
+
+
+
+
+{% endblock %}

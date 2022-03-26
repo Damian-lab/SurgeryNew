@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+
+ 
+<div class="container">
+
+    <h1 align="center">Dashboard Summary</h1>
+    <br>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Total Appointments</strong> <button class="btn btn-info"> {{ totalApp }}</button>
+        </li>
+        <li class="list-group-item">
+            <strong>Appointments Done</strong>
+            <button class="btn btn-info"> {{ compApp }} </button>
+        </li>
+        <li class="list-group-item">
+            <strong>Upcoming Appointments</strong> 
+            <button class="btn btn-info"> {{ pendApp }} </button>
+        </li>  
+    </ul>
+</div>
+
+
+
+    <!--<div class="row">
+    <div class="col-md-7">
+        <h3>Patients</h3>
+        <div class="card card-body">
+            <a href="{% url 'user_profile:profile-create' %}"><button class="btn btn-info">Create Patient</button><br><br></a>
+
+            <div class ="row">
+             <h5>Search</h5>
+            <div class = "col">
+            <div class = "card card-body">
+            <input id ="search-input"class ="form-control"type="text"style="width:125px;"size="25"<br><br>
+            </div>
+            </div>
+            </div>
+            <table class="table table-striped">
+                <thead> 
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>D.O.B</th>
+                    <th>Age</th>
+                    <th>Membership</th>
+                    <th>Beneficiary</th>
+                    <th>Next kin name</th>
+                    <th>Next of kin number</th>
+                    <th>Update</th>
+                    
+                </thead>
+                {% for obj in pat_list %}
+                <tr>
+                    <td>{{ obj.name }}</td>
+                    <td>{{ obj.phone }}</td>
+                    <td>{{ obj.email }}</td>
+                    <td>{{ obj.gender }}</td>
+                    <td>{{ obj.dob }}</td>
+                    <td>{{ obj.age }}</td>
+                    <td>{{ obj.membership }}</td>
+                     <td>{{ obj.beneficiary }}</td>
+                    <td>{{ obj.next_of_kin_name }}</td>
+                    <td>{{ obj.next_of_kin_number }}</td>
+                    <td><a href="{% url 'user_profile:profile-pk' pk=obj.user.id %}"><button class="btn btn-info">Update</button></a></td>
+  
+                </tr>
+                {% empty %}
+                    <h3> nothing to display </h3>
+                {% endfor %}
+            </table>
+            
+        </div>
+    </div>-->
+    
+  
+
+{% endblock %}
