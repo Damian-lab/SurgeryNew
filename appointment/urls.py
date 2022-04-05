@@ -1,8 +1,13 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import  MyPdfListView
+
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'appointment-schedule',views.AppointmentMethodViewset)
 
 
 
@@ -10,6 +15,7 @@ from .views import  MyPdfListView
 app_name = "appointment"
 
 urlpatterns = [
+     path('api/', include(router.urls)),
     path("appointments/p/", views.AppointmentsForAPatientView.as_view(), name="patient-appointments"),
     path("appointment", views.PaymentListView.as_view(), name="patient_payment"),
     path("appointment", views.AppointmentsForADoctorView.as_view(), name="doctor-appointments"),
@@ -30,12 +36,14 @@ urlpatterns = [
     path("search_profile",views.search_profile,name="search-profile"),
     path("ViewPrescription/", views.patientView,name="patient_prescription"),
     path("appointment/<int:pk>/", views.AppointmentPk, name="appointment-pk"),
-    path("appointment/<int:pk>/", views.PaymentPk, name="payment-pk"),
+    path("payment/<int:pk>/", views.PaymentPk, name="payment-pk"),
     path('appointment', views.MyPdfListView.as_view(),name ='mypdf-list-view'),
     path('appointments/<pk>/',views.my_pdf_view,name ='pdf-view'),
     path("patients", views.myPatient,name="patient_list"),
     path('appointment', views.index, name='index'),
     path('icd10', views.autocomplete, name='autocomplete'),
+    path('prescription/<int:pk>/',views.GeneratePrescriptionDocument.as_view(),name= 'my-pdf')
+   
     
  
 

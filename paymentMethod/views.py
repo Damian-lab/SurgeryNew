@@ -1,5 +1,6 @@
 
 from django.shortcuts import redirect, render
+from consultation_fee.models import ConsultationFee
 import paymentMethod
 from django.contrib.auth.mixins import LoginRequiredMixin
 from paymentMethod.forms import PaymentMethodForm
@@ -10,7 +11,7 @@ from django.views.generic import ListView, CreateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.viewsets import ModelViewSet
-from paymentMethod.serializers import PaymentMethodSerializer
+from paymentMethod.serializers import ConsultSerializer, PaymentMethodSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
@@ -50,4 +51,10 @@ class PaymentMethodViewset(ModelViewSet):
     serializer_class =PaymentMethodSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['currency_name',]
+
+class ConsultationFeeViewset(ModelViewSet):
+    queryset = ConsultationFee.objects.all()
+    serializer_class =ConsultSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['fee',]
 

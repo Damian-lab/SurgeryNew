@@ -4,11 +4,11 @@
 
 {% block content %}
 <div class="container">
-    <h2>Previous Payments</h2>
+    <h2>Previous Payment</h2>
     <form method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
-   
+        <input type="submit" value="Update" class="btn btn-default">
     </form>
 </div>
 {% endblock %}

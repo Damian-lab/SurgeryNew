@@ -24,6 +24,20 @@
     {% endblock %}
     <script>
         $(document).ready(function(){
+            $.ajax({url: "http://127.0.0.1:8000/api/consultation-fee/", async:true, success: function(result){
+               
+                my_fee = result[0].fee
+            
+
+          
+
+            }, error: function(xhr){
+                                $("#errodiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+              } });
+
+
+
+
             
 
             $('#id_paymentMethod_3').on('click', function(e){
@@ -35,11 +49,18 @@
                 $('#id_ecoNumber, label[for="id_ecoNumber"]').hide();
                 $('#id_rate, label[for="id_rate"]').hide();
                 $('#id_total, label[for="id_total"]').show();
-                var loan = $(e.currentTarget).val();
-              
-                 
-                  
-                $('#id_total').val(100);
+                let rate;
+
+            $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=MedAid", async:true, success: function(result){
+               
+                rate = result[0].rate
+
+                $('#id_total').val(rate*my_fee);
+                $('#id_total, label[for="id_total"]').show();
+
+            }, error: function(xhr){
+                                $("#errodiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+              } });
             });
         });
        
@@ -52,9 +73,22 @@
                 $('#id_rate, label[for="id_rate"]').hide();
                 $('#id_rate, label[for="id_rate"]').hide();
                 $('#id_total, label[for="id_total"]').show();
-                var loan = $(e.currentTarget).val();
-              
-                    $('#id_total').val(800);
+                let rate;
+
+                $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=USD", async:true, success: function(result){
+                   
+                    rate = result[0].rate
+    
+                
+                    $('#id_total').val(rate*my_fee);
+                    $('#id_total, label[for="id_total"]').show();
+    
+                }, error: function(xhr){
+                    $("#errodiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                  } });
+    
+
+             
                  
               
                        
@@ -76,9 +110,10 @@
             let rate;
 
             $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=ZWL", async:true, success: function(result){
+               
                 rate = result[0].rate
 
-                $('#id_total').val(rate);
+                $('#id_total').val(rate*my_fee);
                 $('#id_total, label[for="id_total"]').show();
 
             }, error: function(xhr){
@@ -95,10 +130,19 @@
             $('#id_paymentMethod_2').on('click', function(e){
                 $('#id_ecoNumber, label[for="id_ecoNumber"]').hide();
                 $('#id_total, label[for="id_total"]').show();
-                var loan = $(e.currentTarget).val();
-                  
-                $('#id_total').val(200);
-             
+                $('#id_medaid, label[for="id_medaid"]').hide(); 
+                let rate;
+
+                $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=ZAR", async:true, success: function(result){
+                   
+                    rate = result[0].rate
+    
+                    $('#id_total').val(rate*my_fee);
+                    $('#id_total, label[for="id_total"]').show();
+    
+                }, error: function(xhr){
+                    $("#errodiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                  } });
             
             });
             {% comment %} $(document).ready(function () {
@@ -138,7 +182,7 @@
                     {% csrf_token %}
                     {{ payment_form.as_p }}
                     
-                    <input type="submit" value="Create" class="btn btn-info">
+                    <a href="{% url 'appointment:rec-payment' %}"> <input type="submit" value="Create" class="btn btn-info"></a>
                     {% comment %} <button type="submit" class="btn btn-primary">Create</button> {% endcomment %}
                 </form>
 

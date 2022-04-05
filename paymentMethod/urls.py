@@ -9,6 +9,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'payment-methods',views.PaymentMethodViewset)
+router.register(r'consultation-fee',views.ConsultationFeeViewset)
 
 app_name = "paymentMethod"
 urlpatterns = [

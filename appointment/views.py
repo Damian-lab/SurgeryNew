@@ -1,11 +1,16 @@
+import logging
 from math import ceil
 from multiprocessing import context
 from re import L
+from this import d
+from unicodedata import name
+from urllib import response
 import django
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.http import Http404, JsonResponse
 import appointment
+from appointment.serializers import AppointmentMethodSerializer
 from paymentMethod.models import PaymentMethod
 import user_profile
 from .models import *
@@ -25,6 +30,10 @@ import os
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.template.context_processors import csrf
+from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+import datetime
+
 
 # from django.urls import re_path
 # from .views import add_drug
@@ -76,7 +85,8 @@ class AppointmentListView(LoginRequiredMixin, ListView):
     redirect_field_name = 'account:login'
 
     def get_queryset(self):
-        return Appointment.objects.filter(doctor=self.request.user)
+        date_days_before = datetime.datetime.now() + datetime.timedelta(days=2)
+        return Appointment.objects.filter(doctor=self.request.user, status='Pending').all()
 # doctor=self.request.user,
 
 
@@ -92,29 +102,29 @@ class RdashboardListView(LoginRequiredMixin, ListView):
 def PrescriptionCreateView(request):
     if request.method == 'POST':
         form = PrescriptionForm(request.POST)
-    
 
         if form.is_valid():
             prescription = form.save(commit=False)
             prescription.doctor = request.user
-            
+
             prescription.save()
         return redirect('appointment:doc-prescriptions')
+
     else:
         form = PrescriptionForm()
-       
+
     return render(request, 'appointment/prescription_create.html', {'form': form})
-    
+
 
 @login_required(login_url='/login/')
 def AppointmentCreateView(request):
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
-      
+
         if form.is_valid():
             appointment = form.save(commit=False)
             # appointment.doctor = request.user
-          
+
             appointment.save()
             return redirect('appointment:doctor_app')
 
@@ -147,24 +157,25 @@ def PaymentCreateView(request):
     if request.method == 'POST':
         payment_form = PaymentForm(request.POST)
         if payment_form.is_valid():
-            form = payment_form.save(commit=False)
-            form.receptionist = request.user
-            form.save()
+            payment = payment_form.save(commit=False)
+            payment.receptionist = request.user
+            payment.save()
+
             return redirect('appointment:bill_payments')
+
+     
 
     else:
         payment_form = PaymentForm()
-       
+
         args = {}
     args.update(csrf(request))
     args['payment_form'] = payment_form
 
-    rate_values = PaymentMethod.rate
-    args['rate_values'] = rate_values
- 
-  
-    return render(request, "appointment/payment_create.html", args)
+    # rate_values = PaymentMethod.rate
+    # args['rate_values'] = rate_values
 
+    return render(request, "appointment/payment_create.html", args)
 
 
 @login_required(login_url='/login/')
@@ -204,9 +215,10 @@ def doctorappointment(request):
 @login_required(login_url='/login/')
 def receptionistappointment(request):
     if request.method == "GET" and request.user.user_type == "R":
+        date_days_before = datetime.datetime.now() + datetime.timedelta(days=1)
+        # return Appointment.objects.filter(doctor=self.request.user, status='Pending').all()
         context = {
-
-            "app_list": Appointment.objects.all()[:5],
+            "app_list": Appointment.objects.filter(status='Pending', date=date_days_before).all(),
         }
     return render(request, 'appointment/receptionist_app.html', context=context)
 
@@ -336,7 +348,6 @@ def my_pdf_view(request, *args, **kwargs):
     mypdf = get_object_or_404(Prescription, pk=pk)
     template_path = 'appointment/my_pdf.html'
     context = {'mypdf': mypdf}
-   
 
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -389,8 +400,6 @@ def link_callback(uri, rel):
     return path
 
 
-
-
 @login_required(login_url='/login/')
 def myPatient(request):
 
@@ -413,7 +422,6 @@ def index(request):
             form = payment_form.save()
             return redirect('bill_payments')
 
-
     else:
         payment_form = PaymentForm()
     args = {}
@@ -431,8 +439,86 @@ def autocomplete(request):
         titles = list()
         for icd10 in qs:
             titles.append(icd10.icd10_code)
-          
+
         return JsonResponse(titles, safe=False)
     # return render(request, 'appointment/prescription_create.html')#there was ajax.html
 
 
+class GeneratePrescriptionDocument(View):
+    def get(self, request, pk, *args, **kwargs):
+        try:
+            prescription_db = Prescription.objects.get(id=pk)
+
+        except:
+            return HttpResponse("PDF Not Found")
+        data = {
+
+
+
+            'NatID': prescription_db.NatID,
+            'drugs': prescription_db.drugs,
+            'dosage': prescription_db.dosage,
+            'frequency': prescription_db.frequency,
+            'duration': prescription_db.duration,
+            'diagnosis': prescription_db.diagnosis,
+
+
+
+
+
+        }
+
+        pdf = render_to_pdf('appointment/templates/my_trial.html', data)
+
+        return HttpResponse(pdf, content_type='application/pdf')
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    # , link_callback=fetch_resources)
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
+class AppointmentMethodViewset(ModelViewSet):
+
+    queryset = Appointment.objects.filter()
+    serializer_class = AppointmentMethodSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status', ]
+
+
+# def process():
+#     getApproachingAppointments()
+#     pass
+
+##endpoint to display phone numbers]
+
+    
+def getApproachingAppointments():
+    '''
+        get all app. wth status==pending and 2 days before
+    '''
+    date_days_before = datetime.datetime.now() + datetime.timedelta(days=1)
+
+    queryset = Appointment.objects.filter(
+        date=date_days_before, status='Pending').all()
+    
+    patient_numbers = []
+
+    patients = []
+
+    # loop thru whole list and get patient record > phone number > append to a list
+    for record in queryset:
+        patient = UserProfile.objects.filter(user__user_type="P", user__username=record.patient).first()
+        patient_numbers.append(patient.phone)
+        patients.append(patient)
+        
+      
+    
+
+    return patients

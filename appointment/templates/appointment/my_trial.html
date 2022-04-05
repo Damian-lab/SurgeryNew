@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en"
+{% load static %}
+<head>
+    <title> Prescription</title>
+    <style>
+        .clearfix:after{
+            content:"";
+            display: table;
+            clear: both;
+        }
+
+        a{
+            text-decoration:underline;
+        }
+        body{
+            position: relative;
+            margin: 0 auto;
+            color: #001028;
+            background: #FFFFFF;
+            font-family: Arial,sans-serif;
+            font-size: 14px;
+            font-family: Arial;
+        }
+        header{
+            padding: 10px 0;
+            margin-bottom: 30px;
+        }
+        #logo{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        #logo img{
+            width: 90px;
+        }
+        h1{
+            color:#5D6975;
+            font-size:2.4em;
+            line-height:1.4em;
+            font-weight:normal;
+            text-align:center;
+            margin: 0 0 20px 0;
+        }
+        #project{
+            float: left;
+        }
+        #project span{
+            color: #5D6975;
+            text-align: right;
+            width: 52px;
+            margin-right: 10px;
+            display:inline-block;
+            font-size:14px;
+
+        }
+        #company{
+            float: right;
+            text0align: right;
+
+        }
+
+        #project div,
+        #company div {
+            white-space: nowrap;
+        }
+
+        table{
+            width: 100%;
+            border-collapse:collapse;
+            border-spacing: 0;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            text-align: center;
+        }
+        table th {
+
+            color: #5D6975;
+            border-bottom: 1px solid #C1CED9;
+            white-space: nowrap;
+            font-weight: normal;
+
+        }
+        table .service,
+        table .desc {
+            text-align: left;
+
+        }
+
+        table td {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        table tr {
+            border-bottom: 1px solid #C1CED9;
+        }
+
+        table td .service,
+        table td.desc {
+            vertical-align: top;
+        }
+
+        table td.unit,
+        table td.qty,
+        table td.total {
+            font-size: 1.2em;
+        }
+
+        table td.grand {
+            border-top: 1ppx solid #5D6975;;
+        }
+        #notices .notices{
+            color:#5D6975;
+            font-size: 1.2em;
+        }
+
+        footer {
+            color: #5D6975;
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            border-top: 1px solid #C1CED9;
+            padding : 8px 0;
+            text-align: center;
+        }
+
+    </style>
+    
+</head>
+
+<body>
+    <header class="clearfix">
+        <div id="logo"style = "display:flex; justify-content:left; align-items:left;">
+     
+            <img src="static/images/kevjos.png" width='250px'>
+            <hr>
+            
+            <br>
+        </div>
+        <br>
+        <div><p style = "text-align:right; font-size: 12px;" >Email: <a href ="">damecode.dev@gmail.com</a></p></div>
+        <br>   
+        <div>PATIENT DETAILS: </div>
+        <br>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                  
+                    <th>NAME</th>
+                    <th>AGE</th>
+                    <th>NATIONAL ID</th>
+                    <th>ADDRESS</th>
+                    <th>PHONE NUMBER</th>
+ 
+                </tr>
+            </thead>
+          
+           
+            <tbody>
+
+                <tr>
+                   {% comment %} <td>{{obj.name}}</td>
+                    <td>{{obj.age}}</td>
+                    <td>{{obj.NatID}}</td> {% endcomment %}
+
+          <td>{{mypdf.patient}}</td>
+            <td>{{obj.age}}</td>
+          
+           <td>{{mypdf.NatID}}</td>  
+            <td></td>
+            <td></td>
+
+            </tbody>
+        </tr>
+     
+        </table>
+        <br>
+        <br>
+        <br>
+        <div>PRESCRIPTION:</div>
+        <br>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                  
+                    <th>DATE</th>
+                    <th>DRUGS</th>
+                    <th>DOSAGE</th>
+                    <th>FREQUENCY</th>
+                    <th>DURATION</th>
+                    <th>DIAGNOSIS</th>
+                    <th>COMMENT</th>
+  
+                </tr>
+            </thead>
+            <tbody>
+            <td> {{mypdf.date}}</td>
+            {% comment %} <td>{{mypdf.patient}}</td> {% endcomment %}
+            {% comment %} <td> {{mypdf.NatID}}</td> {% endcomment %}
+        
+            <td>{{drugs}}</form></td>
+            <td> {{dosage}}</td>
+            <td>{{frequency}}</td>
+            <td>{{duration}}</td> 
+            <td>{{diagnosis}}</td>
+            <td>{{diagnosis}}</td>
+            {% comment %} <td>{{mypdf.comment}}</td>  {% endcomment %}
+            {% comment %} <div><span><strong>DIAGNOSIS:</strong></span> {{mypdf.diagnosis}}</div> {% endcomment %}
+          
+            </tbody>
+         
+         
+        </table>
+            {% comment %} <div><span><strong>REFERRANCE:</strong></span> {{mypdf.referrance}}</div> {% endcomment %}
+           
+        
+        <br>
+        <br>
+
+    </header>
+    
+</div>
+<p style = "text-align:left; font-size: 12px;"><strong>Signature</strong<p>
+    <div>___________________________</div>
+<p style = "text-align:right; font-size: 12px;">*Thank you for being part of us...<p>
+</body>
+</html>

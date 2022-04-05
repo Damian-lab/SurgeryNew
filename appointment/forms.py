@@ -162,3 +162,36 @@ class PaymentForm(forms.ModelForm):
     #     super(PaymentForm, self).__init__(*args, **kwargs)
     #     if self.instance :
     #         self.fields['patient'].queryset = User.objects.filter(user_type="P")
+      
+    def __init__(self, *args, **kwargs):
+        super(PaymentForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['patient'].queryset = User.objects.filter(
+                user_type="P")
+            instance = getattr(self, 'instance', None)
+            if instance and instance.pk:
+                self.fields['total'].widget.attrs['readonly'] = True
+            if instance and instance.pk:
+                self.fields['medaid'].widget.attrs['readonly'] = True
+            if instance and instance.pk:
+                self.fields['ecoNumber'].widget.attrs['readonly'] = True
+
+        
+    def clean_total(self):
+            instance = getattr(self, 'instance', None)
+            if instance and instance.pk:
+                return instance.total
+            else:
+                return self.cleaned_data['total']
+    def clean_medaid(self):
+        instance = getattr(self, 'instance',None)
+        if instance and instance.pk:
+            return instance.medaid
+        else: 
+            return self.cleaned_data['medaid']
+    def clean_ecoNumber(self):
+        instance = getattr(self, 'instance',None)
+        if instance and instance.pk:
+            return instance.ecoNumber
+        else: 
+            return self.cleaned_data['ecoNumber']

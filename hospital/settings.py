@@ -12,11 +12,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+import hospital
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 STATIC_DIR = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -51,7 +54,9 @@ INSTALLED_APPS = [
     'import_export',
     'icd10.apps.Icd10Config',
     'paymentMethod.apps.PaymentmethodConfig',
-     'widget_tweaks',
+    'consultation_fee.apps.ConsultationFeeConfig',
+    'widget_tweaks',
+    'broadcast',
    
   
 
@@ -165,3 +170,11 @@ STATICFILES_DIRS = [STATIC_DIR,]
 #     "", 
 # ]
 #alternate code for verification : c1L5sCGOLjiZMZN1T9T_Ibnjt9SO_uhtWq5Znn-Ys
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_NUMBER = os.getenv("TWILIO_NUMBER")
+SMS_BROADCAST_TO_NUMBERS = [ 
+    "", # use the format +19735551234
+    "", 
+    "", 
+]

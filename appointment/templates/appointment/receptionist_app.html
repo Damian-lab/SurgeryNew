@@ -50,6 +50,7 @@
                 <th>Temp</th>
                 <th>Weight</th>
                 <th>SP02</th>
+                <th>Notification Status(SMS)</th>
                
               <!-- <th>Complaint</th>-->
                 </thead>
@@ -63,13 +64,7 @@
                  
                 <td>{{obj.Allergic}}</td>
                 <td>
-                    {% if obj.Bp < 130 %}
-                <div class="Bp NegativeTransaction"> 
-                {% else %} 
-                <div class="Bp PositiveTransaction">
-                {% endif %}
-                     {{ obj.Bp }}
-                </div>
+                     {{ obj.Bp }}  
             </td>
                <td>{{ obj.Pulse }}</td>
         
@@ -77,10 +72,11 @@
                   
                 <td>{{obj.Weight}}</td>
                 <td >{{obj.SP02}}</td>
-              
+                <td >{{obj.notification}}</td>
                 </tr>
                 {% endfor %}
             </table>
+           
         </body>
 
          {% endif %}

@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from appointment.views import getApproachingAppointments
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
@@ -102,7 +104,6 @@ def myPatient(request):
 
     if request.method == "GET" and request.user.user_type == "R":
         context = {
-       
-              "pat_list" : UserProfile.objects.filter(user__user_type="P")[:5],
+            "pat_list" : UserProfile.objects.filter(user__user_type="P")[:5],
             }
     return render(request, 'user_profile/patient_list.html', context=context)

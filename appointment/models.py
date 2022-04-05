@@ -1,4 +1,5 @@
 import datetime
+from email.policy import default
 from tabnanny import verbose
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -74,6 +75,7 @@ class Appointment(models.Model):
     Temp = models.CharField(max_length=200)
     Weight = models.CharField(max_length=200)
     SP02 = models.CharField(max_length=200)
+    notification= models.BooleanField.default=False
 
 # meta and ordering wasnt there
     class Meta:
@@ -143,10 +145,10 @@ class Payment(models.Model):
         choices=PAYMENT_TYPES,default="Consulting", max_length=1,  verbose_name="Type Of payment")
     paymentMethod = models.CharField(null=True, max_length=200, verbose_name="Method Of Payment")
     medaid = models.CharField(
-        null=True, max_length=200)
+        null=True, max_length=200,default='None')
 
     ecoNumber = models.CharField(
-        null=True, max_length=200, verbose_name="Ecocash number")
+        null=True, max_length=200, verbose_name="Ecocash number",default='None')
     total = models.IntegerField(null=True)
   
     class Meta:
