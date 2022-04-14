@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+  
     path('admin/', admin.site.urls),
     path("", include('account.urls', namespace="account")),
     path("", include('user_profile.urls', namespace="user_profile")),
@@ -26,7 +27,8 @@ urlpatterns = [
     path("", include('icd10.urls', namespace="icd10")),
     path("", include('paymentMethod.urls', namespace="paymentMethod")),
     path("", include('consultation_fee.urls', namespace="consultation_fee")),
-    path('', include('broadcast.urls')),     
+    path('', include('broadcast.urls')), 
+    
  
     
     

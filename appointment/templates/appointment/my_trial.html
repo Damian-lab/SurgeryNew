@@ -167,13 +167,10 @@
                    {% comment %} <td>{{obj.name}}</td>
                     <td>{{obj.age}}</td>
                     <td>{{obj.NatID}}</td> {% endcomment %}
-
-          <td>{{mypdf.patient}}</td>
-            <td>{{obj.age}}</td>
-          
-           <td>{{mypdf.NatID}}</td>  
-            <td></td>
-            <td></td>
+ 
+            <td>{{prescription_value.patient}}</td>
+            <td>{{prescription_value.age}}</td>
+            <td>{{prescription_value.NatID}}</td>
 
             </tbody>
         </tr>
@@ -199,24 +196,25 @@
                 </tr>
             </thead>
             <tbody>
-            <td> {{mypdf.date}}</td>
-            {% comment %} <td>{{mypdf.patient}}</td> {% endcomment %}
-            {% comment %} <td> {{mypdf.NatID}}</td> {% endcomment %}
+                <td> {{prescription_value.date}}</td>
+         
+            {% comment %} <td>{{prescription_value.patient}}</td> {% endcomment %}
+            {% comment %} <td> {{prescription_value.NatID}}</td> {% endcomment %}
         
-            <td>{{drugs}}</form></td>
-            <td> {{dosage}}</td>
-            <td>{{frequency}}</td>
-            <td>{{duration}}</td> 
-            <td>{{diagnosis}}</td>
-            <td>{{diagnosis}}</td>
-            {% comment %} <td>{{mypdf.comment}}</td>  {% endcomment %}
-            {% comment %} <div><span><strong>DIAGNOSIS:</strong></span> {{mypdf.diagnosis}}</div> {% endcomment %}
           
+            {% comment %} <td>{{prescription_value.comment}}</td>  {% endcomment %}
+            {% comment %} <div><span><strong>DIAGNOSIS:</strong></span> {{prescription_value.diagnosis}}</div> {% endcomment %}
+            <td>{{prescription_value.drugs}}</form></td>
+            <td> {{prescription_value.dosage}}</td>
+            <td>{{prescription_value.frequency}}</td>
+            <td>{{prescription_value.duration}}</td> 
+            <td>{{prescription_value.diagnosis}}</td>
+            <td>{{prescription_value.diagnosis}}</td>
             </tbody>
          
          
         </table>
-            {% comment %} <div><span><strong>REFERRANCE:</strong></span> {{mypdf.referrance}}</div> {% endcomment %}
+            {% comment %} <div><span><strong>REFERRANCE:</strong></span> {{prescription_value.referrance}}</div> {% endcomment %}
            
         
         <br>

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+
 import hospital
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'consultation_fee.apps.ConsultationFeeConfig',
     'widget_tweaks',
     'broadcast',
+    #'django_apscheduler',
    
   
 
@@ -162,19 +164,17 @@ LOGIN_REDIRECT_URL = "account:home"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR,]
 
-# TWILIO_ACCOUNT_SID = 'AC4ca11b35c9c491bc720dfcced11beb64 '
-# TWILIO_AUTH_TOKEN = '9d56639677aab59c8a38d6eda8fe587e'
-# SMS_BROADCAST_TO_NUMBERS = [ 
-#     "+263718347790", # use the format +19735551234
-#     "", 
-#     "", 
-# ]
 #alternate code for verification : c1L5sCGOLjiZMZN1T9T_Ibnjt9SO_uhtWq5Znn-Ys
-TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
-TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-TWILIO_NUMBER = os.getenv("TWILIO_NUMBER")
-SMS_BROADCAST_TO_NUMBERS = [ 
-    "", # use the format +19735551234
-    "", 
-    "", 
-]
+TWILIO_ACCOUNT_SID = os.getenv("AC25fe8e2dc16ea5d862c3e6d2d9470f63")
+TWILIO_AUTH_TOKEN = os.getenv("783ed8bb8d1eac7fb15b9ae87cb68085")
+TWILIO_NUMBER = os.getenv("+19123781433")
+# TWILIO_ACCOUNT_SID = os.getenv("AC785b62608f261eee4176460c5b96936d")
+# TWILIO_AUTH_TOKEN = os.getenv("6a82fbec414b275713604a7c0e59c316")
+# TWILIO_NUMBER = os.getenv("+13187053478")
+# SMS_BROADCAST_TO_NUMBERS = [ 
+#     "+263779145759",# use the format +19735551234
+
+# ]
+
+#verification code to be used when phone lost
+#x-opBn-sINEc4FSdC2vKL_yUSQqXkMZMxMBOpX5-

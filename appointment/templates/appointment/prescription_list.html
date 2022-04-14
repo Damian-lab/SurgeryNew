@@ -19,7 +19,8 @@
     {% if user.is_doctor %}
     <h2>Your Prescriptions</h2>
     <a href="{% url 'appointment:doc-prescriptions-create' %}"><button class="btn btn-info pull-right">Create New Prescription</button></a>
-    <br> <br><a href="{% url 'appointment:doc-prescriptions-create' %}">
+    {% for prescription_value in object_list %}
+    <br> <br><a href="{% url 'appointment:prescription-view' prescription_value.pk %}">
     <ul class="list-group">
         {% for obj in object_list %}
         <li class="list-group-item">
@@ -31,6 +32,7 @@
         </li>
         {% endfor %}
     </a>
+    {% endfor %}
     {% endif %}
     </ul>
 </div>

@@ -4,10 +4,10 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .views import  MyPdfListView
 
-from rest_framework import routers
+# from rest_framework import routers
 
-router = routers.DefaultRouter()
-router.register(r'appointment-schedule',views.AppointmentMethodViewset)
+# router = routers.DefaultRouter()
+# router.register(r'appointment-schedule',views.AppointmentMethodViewset)
 
 
 
@@ -15,7 +15,7 @@ router.register(r'appointment-schedule',views.AppointmentMethodViewset)
 app_name = "appointment"
 
 urlpatterns = [
-     path('api/', include(router.urls)),
+    #  path('api/', include(router.urls)),
     path("appointments/p/", views.AppointmentsForAPatientView.as_view(), name="patient-appointments"),
     path("appointment", views.PaymentListView.as_view(), name="patient_payment"),
     path("appointment", views.AppointmentsForADoctorView.as_view(), name="doctor-appointments"),
@@ -26,6 +26,7 @@ urlpatterns = [
     path("r_dashboard", views.rdashboard, name="r_dashboard"),
     path("appointment/", views.bills, name="bill_payments"),
     path("createAppointment/", views.receptionistappointment,name="receptionist_app"),
+    path("createPrescription/", views.prescription_details,name="prescription-pdf"),
     path("doctorAppointment", views.doctorappointment,name="appointed_doc"),
     path("appointments",views.DocAppointmentCreateView,name="doc-appointments-create"),
     path("appointment",views.AppointmentListView.as_view(),name="doc-appoint"),
@@ -39,10 +40,11 @@ urlpatterns = [
     path("payment/<int:pk>/", views.PaymentPk, name="payment-pk"),
     path('appointment', views.MyPdfListView.as_view(),name ='mypdf-list-view'),
     path('appointments/<pk>/',views.my_pdf_view,name ='pdf-view'),
+    path('prescriptions/<pk>/',views.prescription_pdf,name ='prescription-view'),
     path("patients", views.myPatient,name="patient_list"),
     path('appointment', views.index, name='index'),
     path('icd10', views.autocomplete, name='autocomplete'),
-    path('prescription/<int:pk>/',views.GeneratePrescriptionDocument.as_view(),name= 'my-pdf')
+    
    
     
  

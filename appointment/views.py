@@ -222,6 +222,16 @@ def receptionistappointment(request):
         }
     return render(request, 'appointment/receptionist_app.html', context=context)
 
+#view to print pdf for patient prescriptions
+@login_required(login_url='/login/')
+def prescription_details(request):
+    if request.method == "GET" and request.user.user_type == "D":
+       
+       
+        context = {
+            "pres_list": Prescription.objects.filter(doctor=request.user).all(),
+        }
+    return render(request, 'appointment/my_trial.html', context=context)
 # searching patient
 
 
@@ -239,6 +249,7 @@ def search_patients(request):
         return render(request,
                       'appointment/search_patients.html',
                       {})
+
 
 # searching profile
 
@@ -368,6 +379,31 @@ def my_pdf_view(request, *args, **kwargs):
     return response
 
 
+def prescription_pdf(request, *args, **kwargs):
+
+    pk = kwargs.get('pk')
+    prescription_value = get_object_or_404(Prescription, pk=pk)
+    template_path = 'appointment/my_trial.html'
+    context = {'prescription_value': prescription_value}
+
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # if downloads:
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # if display:
+    response['Content-Disposition'] = 'filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
 def link_callback(uri, rel):
     """
     Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -444,33 +480,7 @@ def autocomplete(request):
     # return render(request, 'appointment/prescription_create.html')#there was ajax.html
 
 
-class GeneratePrescriptionDocument(View):
-    def get(self, request, pk, *args, **kwargs):
-        try:
-            prescription_db = Prescription.objects.get(id=pk)
 
-        except:
-            return HttpResponse("PDF Not Found")
-        data = {
-
-
-
-            'NatID': prescription_db.NatID,
-            'drugs': prescription_db.drugs,
-            'dosage': prescription_db.dosage,
-            'frequency': prescription_db.frequency,
-            'duration': prescription_db.duration,
-            'diagnosis': prescription_db.diagnosis,
-
-
-
-
-
-        }
-
-        pdf = render_to_pdf('appointment/templates/my_trial.html', data)
-
-        return HttpResponse(pdf, content_type='application/pdf')
 
 
 def render_to_pdf(template_src, context_dict={}):
@@ -484,19 +494,10 @@ def render_to_pdf(template_src, context_dict={}):
     return None
 
 
-class AppointmentMethodViewset(ModelViewSet):
-
-    queryset = Appointment.objects.filter()
-    serializer_class = AppointmentMethodSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['status', ]
 
 
-# def process():
-#     getApproachingAppointments()
-#     pass
 
-##endpoint to display phone numbers]
+
 
     
 def getApproachingAppointments():
@@ -522,3 +523,5 @@ def getApproachingAppointments():
     
 
     return patients
+
+    
