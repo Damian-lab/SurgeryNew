@@ -6,6 +6,7 @@ from this import d
 from unicodedata import name
 from urllib import response
 import django
+from django.forms import CharField
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.http import Http404, JsonResponse
@@ -97,7 +98,7 @@ class RdashboardListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Appointment.objects.filter(doctor=self.request.user)
 
-
+#Function to create a bootstrapform
 @login_required(login_url='/login/')
 def PrescriptionCreateView(request):
     if request.method == 'POST':
@@ -114,6 +115,37 @@ def PrescriptionCreateView(request):
         form = PrescriptionForm()
 
     return render(request, 'appointment/prescription_create.html', {'form': form})
+
+def get_related_id(request):
+    patient = request.GET.get('patient',None)
+    data = {'NatID':Prescription.objects.get(patient=CharField(patient)).NatID.NatID}
+    return JsonResponse(data)
+
+#Jquery Function to create prescription
+@login_required(login_url='/login/')
+def PrescriptionViewJquery(request):
+    if request.method == 'POST':
+        prescription_form = PrescriptionForm(request.POST)
+        if prescription_form.is_valid():
+            prescription = prescription_form.save(commit=False)
+            prescription.receptionist = request.user
+            prescription.save()
+
+            return redirect('appointment:doc-prescriptions')
+
+     
+
+    else:
+        prescription_form = PrescriptionForm()
+
+        args = {}
+    args.update(csrf(request))
+    args['prescription_form'] = prescription_form
+
+  
+
+    return render(request, "appointment/prescription_create.html", args)
+
 
 
 @login_required(login_url='/login/')
@@ -467,7 +499,7 @@ def index(request):
 
     return render(request, "index.html", args)
 
-
+#function to do autocomplete
 def autocomplete(request):
     if 'term' in request.GET:
         qs = Icd10.objects.filter(
@@ -479,7 +511,16 @@ def autocomplete(request):
         return JsonResponse(titles, safe=False)
     # return render(request, 'appointment/prescription_create.html')#there was ajax.html
 
+#function to autocomplete user/patient profile name
+def autocomplete_name_of_patient(request):
+    if 'term' in request.GET:
+        qs = UserProfile.objects.filter(
+            name__icontains=request.GET.get('term'))
+        titles = list()
+        for user_profile in qs:
+            titles.append(user_profile.name)
 
+        return JsonResponse(titles, safe=False)
 
 
 
@@ -502,7 +543,7 @@ def render_to_pdf(template_src, context_dict={}):
     
 def getApproachingAppointments():
     '''
-        get all app. wth status==pending and 2 days before
+        get all app. wth status==pending and 1 days before
     '''
     date_days_before = datetime.datetime.now() + datetime.timedelta(days=1)
 

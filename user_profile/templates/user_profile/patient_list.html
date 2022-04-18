@@ -8,7 +8,7 @@
     <div class="col-md-7">
         <h3>Patients</h3>
         <div class="card card-body">
-            <a href="{% url 'user_profile:profile-create' %}"><button class="btn btn-info">Create Patient</button><br><br></a>
+            <a href="{% url 'user_profile:create-profile' %}"><button class="btn btn-info">Create Patient</button><br><br></a>
 
             <div class ="row">
              <h5>Search</h5>
@@ -35,7 +35,7 @@
                     <th>Gender</th>
                     <th>D.O.B</th>
                     <th>Age</th>
-                    <th>Medical Aid</th>
+                    <th>Medical Aid Name</th>
                     <th>Membership</th>
                     <th>Beneficiary</th>
                     <th>Next kin name</th>
@@ -55,7 +55,7 @@
                     <td>{{ obj.gender }}</td>
                     <td>{{ obj.dob }}</td>
                     <td>{{ obj.age }}</td>
-                    <td>{{ obj.medicalAid }}</td> 
+                    <td>{{ obj.medAidName }}</td> 
                     <td>{{ obj.membership }}</td>
                      <td>{{ obj.beneficiary }}</td>
                     <td>{{ obj.next_of_kin_name }}</td>

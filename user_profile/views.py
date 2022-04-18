@@ -1,12 +1,18 @@
 from django.shortcuts import render, redirect
 
-from appointment.views import getApproachingAppointments
+from user_profile.serializers import UserMethodSerializer
+
+
+#from appointment.views import getApproachingAppointments
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
 import string
 import random
-
+from django.template.context_processors import csrf
+from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+import datetime
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -107,3 +113,40 @@ def myPatient(request):
             "pat_list" : UserProfile.objects.filter(user__user_type="P")[:5],
             }
     return render(request, 'user_profile/patient_list.html', context=context)
+
+@login_required(login_url='/login/')
+def UserCreateView(request):
+    if request.method == 'POST':
+        user_form = ProfileUpdateForm(request.POST)
+        if user_form.is_valid():
+               profile = user_form.save(commit=False)
+            # try:
+               password = User.objects.make_random_password()
+               username = profile.name.split()[0] + id_generator()
+               user = User.objects.create(username=username, user_type="P")
+               user.set_password(password)
+               user.save_base(raw=True)
+               profile.user = user
+               profile.save()
+
+               return redirect('appointment:r_dashboard')
+
+     
+
+    else:
+        user_form = ProfileUpdateForm()
+
+        args = {}
+    args.update(csrf(request))
+    args['user_form'] = user_form
+
+  
+
+    return render(request, "user_profile/profile_create.html", args)
+
+
+class UserMethodViewset(ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class =UserMethodSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['NatID',]

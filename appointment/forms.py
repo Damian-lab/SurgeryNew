@@ -20,8 +20,8 @@ class PrescriptionForm(forms.ModelForm):
  
     class Meta:
         model = Prescription
-        fields = ('patient', 'NatID', 'drugs', 'dosage', 'frequency', 'duration', 'diagnosis',
-                   'examination', 'plan', 'prescription',  'referrance')
+        fields = ('patient', 'NatID', 'drugs', 'dosage', 'frequency', 'duration', 'diagnosis','comment',
+                'examination', 'plan', 'prescription',  'referrance')
 
        
 

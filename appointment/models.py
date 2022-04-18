@@ -92,8 +92,9 @@ class Prescription(models.Model):
 
     doctor = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='doctor_prescription')
-    patient = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='patient_prescription', null=True)
+    # patient = models.ForeignKey(
+    #     User, on_delete=models.CASCADE, related_name='patient_prescription', null=True)
+    patient = models.CharField(max_length=200)
     date = models.DateField(auto_now_add=True)
     NatID = models.CharField(max_length=200, null=True,
                              verbose_name="National ID")
@@ -103,9 +104,11 @@ class Prescription(models.Model):
     frequency = models.CharField(max_length=200, verbose_name="Frequency")
     duration = models.CharField(max_length=200, verbose_name="Duration")
     diagnosis = models.CharField(max_length=200)
+    comment   = models.TextField(null=True,verbose_name="Add a comment on ICD10")
     examination = models.TextField(null=True, verbose_name="Examination")
     plan = models.TextField(null=True, verbose_name="Plan")
     prescription = models.TextField(null=True, verbose_name="Prescription")
+    
     #TODO: include comment section on diagnosis
    
     referrance = models.CharField(

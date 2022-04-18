@@ -5,7 +5,7 @@ from django import forms
 USER_CHOICES = [
     ('D', 'Doctor'),
     ('P', 'Patient'),
-    #('R', 'Receptionist'),
+    ('R', 'Receptionist'),
    # ('HR', 'HR'),
     
 ]

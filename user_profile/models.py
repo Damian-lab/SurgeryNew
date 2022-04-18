@@ -13,7 +13,10 @@ GENDER_CHOICES = [
     ('F', 'Female'),
 ]
 
-
+OPTION=[
+    ('Yes', 'Yes'),
+    ('No','No'),
+]
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile')
@@ -27,11 +30,12 @@ class UserProfile(models.Model):
     
     #age = models.IntegerField(blank=True, null=True)
     address = models.CharField(max_length=500, blank=True)
-    medicalAid = models.CharField(max_length=500, blank=True,verbose_name="Medical aid")
-    membership = models.CharField(max_length=500, blank=True)
-    beneficiary = models.CharField(max_length=500, blank=True)
-    next_of_kin_name  = models.CharField(max_length=500, blank=True)
-    next_of_kin_number = models.CharField(max_length=500, blank=True)
+    medicalAid = models.CharField(choices=OPTION,max_length=500, blank=True,verbose_name="Medical aid")
+    medAidName = models.CharField(max_length=200, blank=True,default="None")
+    membership = models.CharField(max_length=500, blank=True,default="None")
+    beneficiary = models.CharField(max_length=500, blank=True,default="None")
+    next_of_kin_name  = models.CharField(max_length=500, blank=True,default="None")
+    next_of_kin_number = models.CharField(max_length=500, blank=True,default="None")
     
     
    

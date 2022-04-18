@@ -8,9 +8,10 @@ from django.forms.widgets import NumberInput
 class ProfileUpdateForm(forms.ModelForm):
     dob =forms.DateField(widget=forms.NumberInput(attrs={'type': 'date'}))
     gender = forms.ChoiceField(choices=GENDER_CHOICES, required=False, widget=forms.RadioSelect)
+    medicalAid = forms.ChoiceField(choices=OPTION,required=False, widget=forms.RadioSelect)
     class Meta:
         model = UserProfile
-        fields = ('name', 'NatID','phone', 'gender','dob','address','medicalAid','membership','beneficiary','next_of_kin_name','next_of_kin_number')
+        fields = ('name', 'NatID','phone', 'gender','dob','address','medicalAid','medAidName','membership','beneficiary','next_of_kin_name','next_of_kin_number')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

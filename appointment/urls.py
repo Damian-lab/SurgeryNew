@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .views import  MyPdfListView
 
-# from rest_framework import routers
+from rest_framework import routers
 
 # router = routers.DefaultRouter()
 # router.register(r'appointment-schedule',views.AppointmentMethodViewset)
@@ -44,6 +44,8 @@ urlpatterns = [
     path("patients", views.myPatient,name="patient_list"),
     path('appointment', views.index, name='index'),
     path('icd10', views.autocomplete, name='autocomplete'),
+    path('patient/name/', views.autocomplete_name_of_patient, name='patient-name'),
+    path('fetching',views.get_related_id,name='get_related_id'),
     
    
     

@@ -137,7 +137,8 @@
     <header class="clearfix">
         <div id="logo"style = "display:flex; justify-content:left; align-items:left;">
      
-            <img src="static/images/kevjos.png" width='250px'>
+            {% comment %} <img src="static/images/kevjos.png" width='250px'> {% endcomment %}
+            <div>Surgery Management System</div>
             <hr>
             
             <br>
@@ -152,7 +153,6 @@
                 <tr>
                   
                     <th>NAME</th>
-                    <th>AGE</th>
                     <th>NATIONAL ID</th>
                     <th>ADDRESS</th>
                     <th>PHONE NUMBER</th>
@@ -164,12 +164,10 @@
             <tbody>
 
                 <tr>
-                   {% comment %} <td>{{obj.name}}</td>
-                    <td>{{obj.age}}</td>
-                    <td>{{obj.NatID}}</td> {% endcomment %}
+                   
 
           <td>{{mypdf.patient}}</td>
-            <td>{{obj.age}}</td>
+         
           
            <td>{{mypdf.NatID}}</td>  
             <td></td>
@@ -208,7 +206,7 @@
             <td>{{mypdf.frequency}}</td>
             <td>{{mypdf.duration}}</td> 
             <td>{{mypdf.diagnosis}}</td>
-            <td>{{mypdf.diagnosis}}</td>
+            <td>{{mypdf.comment}}</td>
             {% comment %} <td>{{mypdf.comment}}</td>  {% endcomment %}
             {% comment %} <div><span><strong>DIAGNOSIS:</strong></span> {{mypdf.diagnosis}}</div> {% endcomment %}
           

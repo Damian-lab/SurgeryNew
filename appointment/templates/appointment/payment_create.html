@@ -106,7 +106,7 @@
     
         $(function(){
             $('#id_paymentMethod_1').on('click', function(e){
-                
+                $('#id_ecoNumber, label[for="id_ecoNumber"]').show();  
             let rate;
 
             $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=ZWL", async:true, success: function(result){
