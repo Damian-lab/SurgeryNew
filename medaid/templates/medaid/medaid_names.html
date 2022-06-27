@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+<div class="container">
+    <h2>Accepted Medical Aid Records </h2>
+    <div>
+  
+        <table class="table table-striped">
+            <thead>
+              
+                <th>Threshold Amount</th>
+                <th>MedAid Name</th>
+            </thead>
+            {% for obj in medaid_list %}
+            <tr id="row-1">
+
+                <td>{{ obj.threshold_amount }}</td>
+                <td>{{ obj.medaid_name }}</td>
+                
+         
+            </tr>
+            {% endfor %}
+        </table>
+   
+        
+
+
+
+
+{% endblock %}

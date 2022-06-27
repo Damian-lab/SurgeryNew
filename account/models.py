@@ -6,7 +6,7 @@ USER_CHOICES = [
     ('D', 'Doctor'),
     ('P', 'Patient'),
     ('R', 'Receptionist'),
-    ('HR', 'HR'),
+    #('HR', 'HR'),
 ]
 
 class User(AbstractUser):
@@ -30,12 +30,13 @@ class User(AbstractUser):
         else:
             return False
 
+    #HR not implemented
     def is_HR(self):
         if self.user_type == 'HR':
             return True
         else:
             return False
-
+    #end of HR function
  
     class Meta:
         ordering = ('id',)

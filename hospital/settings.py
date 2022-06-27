@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'icd10.apps.Icd10Config',
     'paymentMethod.apps.PaymentmethodConfig',
     'consultation_fee.apps.ConsultationFeeConfig',
+    'edliz.apps.EdlizConfig',
+    'medaid.apps.MedaidConfig',
     'widget_tweaks',
     'broadcast',
     #'django_apscheduler',
@@ -165,9 +167,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR,]
 
 #alternate code for verification : c1L5sCGOLjiZMZN1T9T_Ibnjt9SO_uhtWq5Znn-Ys
-TWILIO_ACCOUNT_SID = os.getenv("AC25fe8e2dc16ea5d862c3e6d2d9470f63")
-TWILIO_AUTH_TOKEN = os.getenv("783ed8bb8d1eac7fb15b9ae87cb68085")
-TWILIO_NUMBER = os.getenv("+19123781433")
+TWILIO_ACCOUNT_SID = os.getenv("AC4ca11b35c9c491bc720dfcced11beb64")
+TWILIO_AUTH_TOKEN = os.getenv("9d56639677aab59c8a38d6eda8fe587e")
+TWILIO_NUMBER = os.getenv("+18504937780")
 # TWILIO_ACCOUNT_SID = os.getenv("AC785b62608f261eee4176460c5b96936d")
 # TWILIO_AUTH_TOKEN = os.getenv("6a82fbec414b275713604a7c0e59c316")
 # TWILIO_NUMBER = os.getenv("+13187053478")

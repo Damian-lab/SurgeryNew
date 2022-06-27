@@ -10,3 +10,4 @@ class ConsultSerializer(ModelSerializer):
     class Meta:
         model=ConsultationFee
         fields="__all__"
+        

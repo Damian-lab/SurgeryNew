@@ -31,20 +31,20 @@ def getApproachingAppointments():
 
     return patient_numbers
 def broadcast_sms():
-    message_to_broadcast = ("Your appointment scheduled with Damian's Surgery is ready tomorrow!")
-    client = Client("AC25fe8e2dc16ea5d862c3e6d2d9470f63", "783ed8bb8d1eac7fb15b9ae87cb68085")
+    message_to_broadcast = ("Your appointment scheduled with the surgery is on tomorrow!")
+    client = Client("AC4ca11b35c9c491bc720dfcced11beb64", "9d56639677aab59c8a38d6eda8fe587e")
     for recipient in getApproachingAppointments():
         if recipient:
             client.messages.create(to=recipient,
-                                   from_="+19123781433",
+                                   from_="+18504937780",
                                    body=message_to_broadcast)
     return HttpResponse("messages sent to patient!", 200)
 
 def working_sms(request):
   
     scheduler= BackgroundScheduler()
-    scheduler.add_job(broadcast_sms,'interval',seconds=5)
+    scheduler.add_job(broadcast_sms,'interval',seconds=20)
     scheduler.start()
     Appointment.notification = True
-  
+    return HttpResponse("messages sent to patient!", 200)
 

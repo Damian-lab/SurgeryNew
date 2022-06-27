@@ -146,7 +146,7 @@ class PaymentForm(forms.ModelForm):
         widgets = {
 
             'paymentMethod': forms.RadioSelect(attrs={'class': 'form-control'}),
-            'medaid': forms.TextInput(attrs={'placeholder': 'Enter MedAid Name', 'class': 'form-control'}),
+            #'medaid': forms.TextInput(attrs={'placeholder': 'Enter MedAid Name', 'class': 'form-control'}),
           
 
 

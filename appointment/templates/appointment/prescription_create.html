@@ -37,6 +37,18 @@
               
             });
         });
+        $(function(){
+            $('#id_drugs').click (function(){
+                $(function () {
+                    $("#id_drugs").autocomplete({
+                        
+                        source: '{% url 'appointment:autocomplete_drug' %}'
+                      
+                    });
+                    });
+              
+            });
+        });
 
         $(function(){
             $('#id_patient').click (function(){

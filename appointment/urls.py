@@ -44,6 +44,7 @@ urlpatterns = [
     path("patients", views.myPatient,name="patient_list"),
     path('appointment', views.index, name='index'),
     path('icd10', views.autocomplete, name='autocomplete'),
+    path('edliz', views.autocomplete_drug, name='autocomplete_drug'),
     path('patient/name/', views.autocomplete_name_of_patient, name='patient-name'),
     path('fetching',views.get_related_id,name='get_related_id'),
     

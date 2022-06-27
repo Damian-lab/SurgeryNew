@@ -25,7 +25,9 @@ urlpatterns = [
     path("", include('user_profile.urls', namespace="user_profile")),
     path("", include('appointment.urls', namespace="appointment")),
     path("", include('icd10.urls', namespace="icd10")),
+    path("", include('edliz.urls', namespace="edliz")),
     path("", include('paymentMethod.urls', namespace="paymentMethod")),
+    path("", include('medaid.urls', namespace="medaid")),
     path("", include('consultation_fee.urls', namespace="consultation_fee")),
     path('', include('broadcast.urls')), 
     

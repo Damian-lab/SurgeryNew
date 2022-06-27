@@ -33,7 +33,9 @@
 
             }, error: function(xhr){
                                 $("#errodiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
-              } });
+              }
+            
+            });
 
 
 
@@ -45,13 +47,62 @@
                     alert($(this).find("id_paymentMethod_3:selected").text()+' clicked!');
                 });
               
-                $('#id_medaid, label[for="id_medaid"]').show();                
+                $('#id_medaid, label[for="id_medaid"]').show();  
+                $('#id_shortfall, label[for="id_shortfall"]').show(); 
+                $('#id_add_payment, label[for="id_add_payment"]').show();   
                 $('#id_ecoNumber, label[for="id_ecoNumber"]').hide();
                 $('#id_rate, label[for="id_rate"]').hide();
                 $('#id_total, label[for="id_total"]').show();
+                //implementing .change event handler for medical aids
+                $(function () {
+                    $("#id_medaid").change(function () {
+                        var selectedService = $(this).find("option:selected").text();
+                       if($(this).val()=='Minerva'){
+                     //  alert("Selected text: " + selectedService);
+                       
+                        $.ajax({url: "http://127.0.0.1:8000/api/pay-medaid?med_aid_name=Minerva", async:true, success: function(result){
+            calculated_shortfall = result[0].threshold_amount;
+                        console.log(calculated_shortfall);
+                        $('#id_shortfall').val(calculated_shortfall-rate*my_fee);
+                      
+                        $('#id_shortfall, label[for="id_shortfall"]').show();
+        
+                        }, 
+                     });
+                    };///
+                    if($(this).val()=='CIMAS'){
+                       // alert("Selected text: " + selectedService);
+                        
+                         $.ajax({url: "http://127.0.0.1:8000/api/pay-medaid?med_aid_name=CIMAS", async:true, success: function(result){
+             calculated_shortfall = result[2].threshold_amount;
+                         console.log(calculated_shortfall);
+                         $('#id_shortfall').val(calculated_shortfall-rate*my_fee);
+                         $('#id_shortfall, label[for="id_shortfall"]').show();
+         
+                         }, 
+                      });
+                     };///
+                     if($(this).val()=='PSMI'){
+                        // alert("Selected text: " + selectedService);
+                         
+                          $.ajax({url: "http://127.0.0.1:8000/api/pay-medaid?med_aid_name=PSMI", async:true, success: function(result){
+              calculated_shortfall = result[1].threshold_amount;
+                          console.log(calculated_shortfall);
+                          $('#id_shortfall').val(calculated_shortfall-rate*my_fee);
+                          $('#id_shortfall, label[for="id_shortfall"]').show();
+          
+                          }, 
+                       });
+                      };///
+                        
+                    });
+                    
+                });
+        
                 let rate;
 
-            $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=MedAid", async:true, success: function(result){
+
+            $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=MEDAID", async:true, success: function(result){
                
                 rate = result[0].rate
 
@@ -61,6 +112,8 @@
             }, error: function(xhr){
                                 $("#errodiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
               } });
+            
+          
             });
         });
        
@@ -73,6 +126,8 @@
                 $('#id_rate, label[for="id_rate"]').hide();
                 $('#id_rate, label[for="id_rate"]').hide();
                 $('#id_total, label[for="id_total"]').show();
+                $('#id_shortfall, label[for="id_shortfall"]').hide(); 
+                $('#id_add_payment, label[for="id_add_payment"]').hide(); 
                 let rate;
 
                 $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=USD", async:true, success: function(result){
@@ -107,6 +162,8 @@
         $(function(){
             $('#id_paymentMethod_1').on('click', function(e){
                 $('#id_ecoNumber, label[for="id_ecoNumber"]').show();  
+                $('#id_shortfall, label[for="id_shortfall"]').hide(); 
+                $('#id_add_payment, label[for="id_add_payment"]').hide(); 
             let rate;
 
             $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=ZWL", async:true, success: function(result){
@@ -131,6 +188,8 @@
                 $('#id_ecoNumber, label[for="id_ecoNumber"]').hide();
                 $('#id_total, label[for="id_total"]').show();
                 $('#id_medaid, label[for="id_medaid"]').hide(); 
+                $('#id_shortfall, label[for="id_shortfall"]').hide(); 
+                $('#id_add_payment, label[for="id_add_payment"]').hide(); 
                 let rate;
 
                 $.ajax({url: "http://127.0.0.1:8000/api/payment-methods/?currency_name=ZAR", async:true, success: function(result){
@@ -159,17 +218,13 @@
         });
      
        
-     
-      
 
 
     </script>
     <body id="top">
         <div class="jumbotron">
-            <h1 class="display-4">Payment!!</h1>
-            <p class="lead">
-                Please fill in the form below..
-            </p>
+            <h1 class="display-6">Payment Form</h1>
+            
         </p>
     </div>
     {% block content %}

@@ -26,6 +26,7 @@
                             <th>Temp</th>
                             <th>Weight</th>
                             <th>SP02</th>
+                            <th>Appointment Status</th>
                         </thead>
                         {% for obj in app_list %}
                             <tr id="row-1">
@@ -42,6 +43,7 @@
                                 <td>{{ obj.Temp }}</td>
                                 <td>{{ obj.Weight }}</td>
                                 <td>{{ obj.SP02 }}</td>
+                                <td >{{obj.appointment_status}}</td>
                             </tr>
                         {% empty %}
                             <p>

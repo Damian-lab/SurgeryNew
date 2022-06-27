@@ -27,6 +27,15 @@ payment_choice = [
     ('USD', "USD"),
     ('MedAid', "MedAid"),
 ]
+shortfall_payment_method = [
+    ('ZWL', "ZWL"),
+    ('RTGS', "RTGS"),
+    ('ZAR', "ZAR"),
+    ('USD', "USD"),
+    ('None','None'),
+   
+]
+
 
 freq_choice = [
     ('od', 'od'),
@@ -39,19 +48,7 @@ freq_choice = [
     ('stat', 'stat'),
 ]
 
-drugs = [
-    ('ampicillin iv', 'ampicillin iv'),
-    (' gentamicin iv ', ' gentamicin iv '),
-    ('chloramphenicol iv ', 'chloramphenicol iv '),
-    ('ceftriaxone iv', 'ceftriaxone iv'),
-    ('ciprofloxacin po', 'ciprofloxacin po'),
-    ('metronidazole po', 'metronidazole po'),
-    ('chloramphenicol iv', 'chloramphenicol iv'),
-    ('tetracycline eye oint. 1%', 'tetracycline eye oint. 1%'),
-    ('benzylpenicillin im/iv', 'benzylpenicillin im/iv'),
-    ('Other(Specify)', 'Other(Specify)'),
 
-]
 
 
 # Create your models here.
@@ -70,19 +67,30 @@ class Appointment(models.Model):
         User, on_delete=models.CASCADE, related_name='receptionist')
   
     Allergic = models.CharField(max_length=200)
-    Bp = models.CharField(max_length=200)
-    Pulse = models.CharField(max_length=200)
-    Temp = models.CharField(max_length=200)
-    Weight = models.CharField(max_length=200)
-    SP02 = models.CharField(max_length=200)
+    Bp = models.IntegerField()
+    Pulse = models.IntegerField(null=True)
+    Temp = models.FloatField(null=True)
+    Weight = models.IntegerField(null=True)
+    SP02 = models.FloatField(null=True)
     notification= models.BooleanField.default=False
 
-# meta and ordering wasnt there
+# meta and ordering wasnzt there
     class Meta:
         ordering = ('-id',)
 
     def __str__(self):
         return "Patient - {}  status - {}    - At   - {} " .format(self.patient, self.status, self.date)
+
+    @property
+    def appointment_status(self):
+
+        if float(self.Temp )> 37 or float(self.Temp)<35 or int(self.Pulse)>110 or int(self.Pulse)<60 or float(self.SP02)<90 or int(self.Bp)>130 or int(self.Bp)<100:
+            status_selected = "Urgent"
+            return status_selected#status selected
+        else:
+            status_selected = "Priority"
+            return status_selected
+
 
 
 class Prescription(models.Model):
@@ -98,8 +106,7 @@ class Prescription(models.Model):
     date = models.DateField(auto_now_add=True)
     NatID = models.CharField(max_length=200, null=True,
                              verbose_name="National ID")
-    drugs = models.CharField(
-        choices=drugs, max_length=100, blank=True, null=True, verbose_name="Drugs")
+    drugs = models.CharField( max_length=100, blank=True, null=True, verbose_name="Drugs")
     dosage = models.CharField(max_length=200, verbose_name="Dosage")
     frequency = models.CharField(max_length=200, verbose_name="Frequency")
     duration = models.CharField(max_length=200, verbose_name="Duration")
@@ -130,6 +137,15 @@ PAYMENT_TYPES = [
     ('C', 'Consulting')
 ]
 
+MED_AID = [
+    
+    ('Minerva',' Minerva'),
+    ('PSMI', 'PSMI'),
+    ('CIMAS','CIMAS'),
+  
+
+]
+
 status = [
     ('Pending', 'Pending'),
     ('Paid', 'Paid'),
@@ -148,11 +164,14 @@ class Payment(models.Model):
         choices=PAYMENT_TYPES,default="Consulting", max_length=1,  verbose_name="Type Of payment")
     paymentMethod = models.CharField(null=True, max_length=200, verbose_name="Method Of Payment")
     medaid = models.CharField(
-        null=True, max_length=200,default='None')
+        choices= MED_AID,null=True, max_length=200)
 
     ecoNumber = models.CharField(
         null=True, max_length=200, verbose_name="Ecocash number",default='None')
+    shortfall = models.IntegerField(null=True,default= 0)
+    add_payment = models.CharField(choices= shortfall_payment_method, null=True,max_length=200, verbose_name="Add Payment")
     total = models.IntegerField(null=True)
+    
   
     class Meta:
         ordering = ('-id',)  # unique identifier

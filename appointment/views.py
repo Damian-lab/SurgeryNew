@@ -12,6 +12,7 @@ from django.views.generic.base import View
 from django.http import Http404, JsonResponse
 import appointment
 from appointment.serializers import AppointmentMethodSerializer
+from edliz.models import Edliz
 from paymentMethod.models import PaymentMethod
 import user_profile
 from .models import *
@@ -498,6 +499,22 @@ def index(request):
     args['presc_cost'] = presc_cost
 
     return render(request, "index.html", args)
+#function to autocomplete drug
+def autocomplete_drug(request):
+    if 'term' in request.GET:
+        qs = Edliz.objects.filter(
+            name_of_drug__icontains=request.GET.get('term'))
+        titles = list()
+        for edliz in qs:
+            titles.append(edliz.name_of_drug)
+
+        return JsonResponse(titles, safe=False)
+
+
+
+
+
+
 
 #function to do autocomplete
 def autocomplete(request):
