@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 STATIC_DIR = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
+DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
 
 
 # Quick-start development settings - unsuitable for production
@@ -60,7 +61,8 @@ INSTALLED_APPS = [
     'medaid.apps.MedaidConfig',
     'widget_tweaks',
     'broadcast',
-    #'django_apscheduler',
+    'phonenumbers',
+    'django_apscheduler',
    
   
 
